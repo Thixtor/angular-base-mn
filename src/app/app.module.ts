@@ -1,11 +1,14 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
 import { UsuarioComponent } from './usuario.component';
 import { FormsModule } from '@angular/forms';
 import { LibrosComponent } from './libros/libros.component'
 import { LibroComponent } from './libro/libro.component';
+import { LibrosService } from './services/libros.service';
+import { InicioComponent} from './inicio.component';
 
 
 @NgModule({
@@ -13,13 +16,15 @@ import { LibroComponent } from './libro/libro.component';
     AppComponent,
     UsuarioComponent,
     LibrosComponent,
-    LibroComponent
+    LibroComponent,
+    InicioComponent
   ],
   imports: [
     BrowserModule,
-    FormsModule
+    FormsModule,
+    AppRoutingModule
   ],
-  providers: [],
+  providers: [LibrosService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

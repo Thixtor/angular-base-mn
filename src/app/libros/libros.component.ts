@@ -1,22 +1,33 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { LibrosService } from '../services/libros.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-libros',
-  templateUrl: './libros.component.html'
+  templateUrl: './libros.component.html',
 })
 
-export class LibrosComponent {
+export class LibrosComponent implements OnInit, OnDestroy {
+  libros = [];
+  constructor(private librosService: LibrosService) {}
+  private libroSubscription: Subscription;
 
-  libros = ['Crimen y Castigo', 'Algoritmos Basico', 'Algebra Basico'];
+  eliminarLibro(libro) {}
 
-  eliminarLibro(libro){
-    this.libros = this.libros.filter(p=>p !== libro);
+  guardarLibro(f) {
+    if (f.valid) {
+      this.librosService.agregarLibro(f.value.nombreLibro);
+    }
   }
 
-  guardarLibro(f){
-    if(f.valid){
-      this.libros.push(f.value.nombreLibro);
-    }
+  ngOnInit() {
+    this.libros = this.librosService.obtenerLibros();
+    this.libroSubscription = this.librosService.librosSubject.subscribe(() => {
+      this.libros = this.librosService.obtenerLibros();
+    });
+  }
 
+  ngOnDestroy() {
+    this.libroSubscription.unsubscribe();
   }
 }
